@@ -1,0 +1,29 @@
+.wrapper
+{
+    display: flex;
+    justify-content: space-around;
+}
+.display
+{
+    width: 500px;
+    height: 500px;
+    background-color: grey;
+    margin-bottom: 25px;
+}
+.log
+{
+    color: white;
+    width: 90%;
+    height: 90%;
+    margin: auto;
+}
+.options
+{
+    width: 100%;
+    text-align: center;
+    justify-self: center;
+}
+.finisher
+{
+    display: none;
+}
