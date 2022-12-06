@@ -8,31 +8,51 @@
     <script src="script.js"></script>
     <title>Document</title>
 </head>
-<body onload="initialize();">
+<body>
     <div class="wrapper">
         <div class="display player">
             <h1>Player</h1>
-            <div class="player-stats">
-                <p id="player-stats-info"></p>
+            <h2>Original Stats</h2>
+            <div id="player-stats">
+                <table id="player-stats-table">
+                    <tr>
+                        <th>Stats</th>
+                        <th>Original</th>
+                        <th>Current</th>
+                    </tr>
+                    
+                </table>
             </div>
-            <div class="log">
+            <div class="player log">
                 <p id="player-log-info"></p>
             </div>
             
             <div class="options">
-                <button class="fight active">Fight</button>
-                <button class="defend acitive">Defend</button>
-                <button class="finisher">Finishing Move</button>
+                <button id="fight">Fight</button>
+                <button id="defend">Defend</button>
+                <br><br>
+                <button id="finisher">Finishing Move</button>
             </div>
         </div>
         
 
         <div class="display computer">
             <h1>Computer</h1>
-            <div class="computer-stats">
-                <p id="computer-stats-info"></p>
+            <h2>Original Stats</h2>
+            <div id="computer-stats">
+                <table id="computer-stats-table">
+                    <tr>
+                        <th>Stats</th>
+                        <th>Original</th>
+                        <th>Current</th>
+                    </tr>
+                    
+                </table>
             </div>
-            <p id="computer-log-info"></p>
+            <div class="computer log">
+                <p id="computer-log-info"></p>
+            </div>
+            
         </div>
     </div>
     

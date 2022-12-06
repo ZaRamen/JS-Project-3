@@ -8,9 +8,30 @@
     width: 700px;
     text-align: center;
     color: white;
-    height: 600px;
+    height: 800px;
     background-color: grey;
     margin: 10px;
+}
+table
+{
+    border: thick solid gray;
+    border-collapse: collapse;
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
+th, td
+{
+    border: thin solid black;
+    padding: 8px;
+    width: 50%;
+}
+.player-stats-table
+{
+    display: flex;
+    align-self: center;
+   text-align: center;
+   margin: 0;
 }
 .player-stats, .computer-stats
 {
@@ -29,8 +50,22 @@
 .options
 {
     width: 100%;
+    margin-bottom: 20px;
 }
-.finisher
+#finisher
 {
     display: none;
+}
+#finisher.appear
+{
+    display: inline-block;
+}
+.player.log, .computer.log
+{
+    background-color: black;
+    margin-bottom: 20px;
+}
+p
+{
+    font-size: 20px;
 }
