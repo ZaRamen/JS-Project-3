@@ -5,23 +5,30 @@
 }
 .display
 {
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    text-align: center;
+    color: white;
+    height: 600px;
     background-color: grey;
-    margin-bottom: 25px;
+    margin: 10px;
+}
+.player-stats, .computer-stats
+{
+    width: 80%;
+    height: 50px;
+    font-size: 20px;
+    margin: auto;
 }
 .log
 {
     color: white;
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 400px;
     margin: auto;
 }
 .options
 {
     width: 100%;
-    text-align: center;
-    justify-self: center;
 }
 .finisher
 {

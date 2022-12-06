@@ -22,6 +22,20 @@ function initialize()
 {
     generateFightersVals(player);
     generateFightersVals(computer);
+    var playerStats = document.getElementById('player-stats');
+    var computerStats = document.getElementById('computer-stats');
+    display(playerStats, computerStats);
+}
+function display(playerStats, computerStats)
+{
+    for (const [key, value] of Object.entries(player)) 
+    {
+        console.log("hey");
+        let playerStatsEle = document.createElement('p');
+        playerStatsEle.innerHTML = key + ': ' + value;
+        playerStats.appendChild(playerStatsEle);
+    }
+    
 }
 function generateFightersVals(fighter)
 {
