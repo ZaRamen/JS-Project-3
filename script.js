@@ -31,8 +31,8 @@ document.addEventListener("DOMContentLoaded", function()
         playerOrgFatigue = player['Fatigue'];
         generateFightersVals(computer);
         computerOrgFatigue = computer['Fatigue'];
-        displayOrgStats(player, playerStatsContainer);
-        displayOrgStats(computer, computerStatsContainer);
+        displayStats(player, playerStatsContainer);
+        displayStats(computer, computerStatsContainer);
 
         addButtonListener('fight');
         addButtonListener('defend');
@@ -44,16 +44,21 @@ document.addEventListener("DOMContentLoaded", function()
                 battle(id);
         });
     }
-    function displayOrgStats(fighter, container)
+    function displayStats(fighter, container)
     {
         for (const [key, value] of Object.entries(fighter)) 
         {
+            // create new row
             let newRow = container.insertRow();
+            // Stat heading
             var newCell = newRow.insertCell();
             newCell.innerHTML = key;
+            // Stat Org value
             var newCell = newRow.insertCell();
             newCell.innerHTML = value;
+            // Stat Current Value
             var newCell = newRow.insertCell();
+            newCell.innerHTML = value;
             newCell.classList.add(key);
         }
     }
@@ -219,17 +224,17 @@ document.addEventListener("DOMContentLoaded", function()
         console.log("Player");
         console.log(player);
 
-        updateStats(player);
-        updateStats(computer);
+        updateStats(player, 0);
+        updateStats(computer, 1);
         canDoFinisher();
         display();
     }
-    function updateStats(fighter)
+    function updateStats(fighter, index)
     {
-        document.getElementsByClassName('Strength')[0].innerHTML = fighter['Strength'];
-        document.getElementsByClassName('Cunning')[0].innerHTML = fighter['Cunning'];
-        document.getElementsByClassName('Speed')[0].innerHTML = fighter['Speed'];
-        document.getElementsByClassName('Fatigue')[0].innerHTML = fighter['Fatigue'];
+        document.getElementsByClassName('Strength')[index].innerHTML = fighter['Strength'];
+        document.getElementsByClassName('Cunning')[index].innerHTML = fighter['Cunning'];
+        document.getElementsByClassName('Speed')[index].innerHTML = fighter['Speed'];
+        document.getElementsByClassName('Fatigue')[index].innerHTML = fighter['Fatigue'];
     }
     function display()
     {
@@ -237,7 +242,9 @@ document.addEventListener("DOMContentLoaded", function()
     }
     function win(winner)
     {
-        alert('winner is ' + winner);
+        alert('winner is ' + winner);;
+        document.getElementById('finisher').classList.remove('appear');
+
     }
     
     // Call functions
