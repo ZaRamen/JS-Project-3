@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function()
     var computerStatsContainer = document.getElementById('computer-stats-table');
     var playerOrgFatigue;
     var computerOrgFatigue;
+
     // functions
     function getRandomInteger(lower, upper) {
         var multiplier = upper - (lower - 1);
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function()
     }
     function displayStats(fighter, container)
     {
+        // Create table for stats
         for (const [key, value] of Object.entries(fighter)) 
         {
             // create new row
@@ -64,11 +66,14 @@ document.addEventListener("DOMContentLoaded", function()
     }
     function generateFightersVals(fighter)
     {
+        
         fighter['Fatigue'] += getRandomInteger(0, 6);
+
         fighter['Strength'] += getRandomInteger(0, 1);
         fighter['Cunning'] += getRandomInteger(0, 1);
         fighter['Speed'] += getRandomInteger(0, 1);
         
+        // Increase 2 stats by 1 and Decreease 2 stats by 1
         let increaseStats = new Set();
         while (increaseStats.size < 2)
         {
@@ -127,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function()
     {
         if (canDoFinisher() == 'computer')
         {
-            return 2;
+            return 'finisher';
         }
         let rnd = getRandomInteger(0, 1);
         if (rnd == 0)
@@ -189,46 +194,108 @@ document.addEventListener("DOMContentLoaded", function()
                 }
                 break;
         }
+    
+        let computerMoveResults = doMove(computer, computerMove);
+        console.log(computerMoveResults);
+        
+        // needs to calc defense every turn
         computerDefense = calcDefense(computer, isComputerDefending);
         playerDefense = calcDefense(player, isPlayerDefending);
 
+        // Attack
+        // Fatigue is altered if attacked
+        let playerFatigueChange;
+        let computerFatigueChange;
+    
         if (playerAttack > computerDefense)
         {
-            computer['Fatigue'] -= playerAttack - computerDefense;
+            computerFatigueChange = computerDefense - playerAttack;
+            computer['Fatigue'] += computerFatigueChange;
         }
         else if (computerAttack > playerDefense)
         {
-            player['Fatigue'] -= computerAttack - playerDefense;
+            playerFatigueChange =  playerDefense - computerAttack;
+            player['Fatigue'] += playerFatigueChange;
         }
-        if (computerMove == 1 && playerMove == 1)
+
+        // if player defended and took no damage then regain some fatigue
+        if (playerMove == 'defend' && playerFatigueChange == 0)
         {
-            computer["Fatigue"] += getRandomInteger(1, 6);
-            if (computer["Fatigue"] > computerOrgFatigue)
-            {
-                computer["Fatigue"] = computerOrgFatigue;
-            }
-            player["Fatigue"] += getRandomInteger(1, 6);
-            if (player["Fatigue"] > playerOrgFatigue)
-            {
-                player["Fatigue"] = playerOrgFatigue;
-            }
+            defend(player, playerOrgFatigue);
+        }
+        else if (computerMove == 'defend' && computerFatigueChange == 0)
+        {
+            defend(computer, computerOrgFatigue);
+        }
+        else if (computerMove == 'defend' && playerMove == 'defend')
+        {
+            // if both defend then both get fatigue back
+            defend(computer, computerOrgFatigue);
+            defend(player, playerOrgFatigue);
         }
         
-        // console.log("player move is " + playerMove);
-        // console.log("computer move is " + computerMove);
-        // console.log("player attack is " + playerAttack);
-        // console.log("player defense is " + playerDefense);
-        // console.log("computer attack is " + computerAttack);
-        // console.log("computer defense is " + computerDefense);
-        console.log(computer);
-        console.log("Player");
-        console.log(player);
+        // Info to display on the log
+        let playerTurnInfo = 
+        {
+            'Player move': playerMove,
+            'Player Attack': playerAttack,
+            'Player Defense': playerDefense,
+            'Player Fatigue Change': playerFatigueChange 
+        }
+        let computerTurnInfo = 
+        {
+            'Computer move': computerMove,
+            'Computer Attack': computerAttack,
+            'Computer Defense': computerDefense,
+            'Computer Fatigue Change': computerFatigueChange 
+        }
+        
 
+        
         updateStats(player, 0);
         updateStats(computer, 1);
+
         canDoFinisher();
-        display();
+        display(playerTurnInfo, computerTurnInfo);
     }
+    function doMove(fighter, moveChoice)
+    {
+        let attack;
+        let isDefending;
+        switch(moveChoice)
+        {
+            case 'fight':
+                attack = calcAttack(fighter, false);
+                break;
+            case 'defend':
+                isDefending = true;
+                break;
+            case 'finisher':
+                attack = calcAttack(fighter, true);
+                
+                if (attack > 1)
+                {
+                    win('computer');
+                }
+                break;
+        }
+        return [attack, isDefending];
+    }
+    function defend(fighter, orgFatigue)
+    {
+        let fatigueChange = getRandomInteger(1, 6);
+        fighter["Fatigue"] += fatigueChange;
+        if (fighter["Fatigue"] > orgFatigue)
+        {
+            fighter["Fatigue"] = orgFatigue;
+        }
+        console.log(fatigueChange);
+    }
+    /**
+     * 
+     * @param {*} fighter 
+     * @param {index of the log (0 is player, 1 is computer)} index 
+     */
     function updateStats(fighter, index)
     {
         document.getElementsByClassName('Strength')[index].innerHTML = fighter['Strength'];
@@ -236,15 +303,31 @@ document.addEventListener("DOMContentLoaded", function()
         document.getElementsByClassName('Speed')[index].innerHTML = fighter['Speed'];
         document.getElementsByClassName('Fatigue')[index].innerHTML = fighter['Fatigue'];
     }
-    function display()
+    
+    function display(playerInfo, computerInfo)
     {
-        
+       for (const [key, value] of Object.entries(playerInfo))
+       {
+        if (value != undefined)
+        {
+            document.getElementById('player-log').innerHTML += key + ': ' + value + "<br>";
+        }
+       }
+       for (const [key, value] of Object.entries(computerInfo))
+       {
+        if (value != undefined)
+        {
+            document.getElementById('computer-log').innerHTML += key + ': ' + value + "<br>";
+        }
+       }
+       document.getElementById('player-log').innerHTML += "<br>";
+       document.getElementById('computer-log').innerHTML += "<br>";
     }
     function win(winner)
     {
-        alert('winner is ' + winner);;
+        alert('Winner is ' + winner);
+        alert('Refresh the page to reset the game');    
         document.getElementById('finisher').classList.remove('appear');
-
     }
     
     // Call functions
