@@ -17,9 +17,6 @@ document.addEventListener("DOMContentLoaded", function()
     var playerOrgStats = {};
     var computerOrgStats = {};
 
-    var playerGainedFatigue = false;
-    var computerGainedFatigue = false;
-
     var playerStatsContainer = document.getElementById('player-stats-table');
     var computerStatsContainer = document.getElementById('computer-stats-table');
  
@@ -196,20 +193,16 @@ document.addEventListener("DOMContentLoaded", function()
         if (playerMove == 'defend' && playerFatigueChange == 0)
         {
             playerFatigueChange = defend(player, playerOrgStats['Fatigue']);
-            playerGainedFatigue = true;
         }
         else if (computerMove == 'defend' && computerFatigueChange == 0)
         {
             computerFatigueChange += defend(computer, computerOrgStats['Fatigue']);
-            computerGainedFatigue = true;
         }
         else if (computerMove == 'defend' && playerMove == 'defend')
         {
             // if both defend then both get fatigue back
             computerFatigueChange += defend(computer, computerOrgStats['Fatigue']);
             playerFatigueChange += defend(player, playerOrgStats['Fatigue']);
-            playerGainedFatigue = true;
-            computerGainedFatigue = true;
         }
 
       
@@ -239,8 +232,6 @@ document.addEventListener("DOMContentLoaded", function()
         updateStats(player, 0);
         updateStats(computer, 1);
         display(playerTurnInfo, computerTurnInfo, pStatChangeMessage, cStatChangeMessage);
-        computerGainedFatigue = false;
-        playerGainedFatigue = false;
     }
     function checkFatigueChange(fighter, fighterOrgStats, fatigueChange)
     {
@@ -357,7 +348,6 @@ document.addEventListener("DOMContentLoaded", function()
     function win(winner)
     {
         alert('Winner is ' + winner);
-        alert('Refresh the page to reset the game');    
         location.reload();
         document.getElementById('finisher').classList.remove('appear');
     }
