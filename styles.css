@@ -1,3 +1,18 @@
+*
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    /* To make use of full height of page*/
+    min-height: 100%;
+    margin: 0;
+}
+body {
+    min-height: 100%;
+    margin: 0;
+}
 .wrapper
 {
     display: flex;
@@ -8,9 +23,14 @@
     width: 700px;
     text-align: center;
     color: white;
-    height: 800px;
+    height: 900px;
     background-color: grey;
     margin: 10px;
+}
+button
+{
+    width: 200px;
+    background-color: aliceblue;
 }
 table
 {
@@ -37,6 +57,7 @@ th, td
 {
     width: 80%;
     font-size: 20px;
+    height: 200px;
     margin: auto;
     margin-bottom: 30px;
 }
@@ -64,4 +85,9 @@ th, td
 p
 {
     font-size: 20px;
+}
+img
+{
+    width: 200px;
+    height: 200px;
 }

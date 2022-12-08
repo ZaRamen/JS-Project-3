@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function()
         
         playerOrgStats = structuredClone(player);
         computerOrgStats = structuredClone(computer);
+
         displayStats(player, playerStatsContainer);
         displayStats(computer, computerStatsContainer);
 
@@ -243,18 +244,23 @@ document.addEventListener("DOMContentLoaded", function()
     }
     function checkFatigueChange(fighter, fighterOrgStats, fatigueChange)
     {
-        
+        let isChanged = false;
         if (fatigueChange <= -5)
         {
             for (const [key] of Object.entries(fighter))
             {
-                if (fighter[key] == 0 )
+                if (fighter[key] != 0 )
                 {
-                   return;
+                   fighter[key] -= 1;
+                   isChanged = true;
                 }
-                 fighter[key] -= 1;
+                 
             }
-            return 'lost stats';
+            if (isChanged)
+            {
+                return 'lost stats';
+            }
+            
         }
         else if (fatigueChange >= 5)
         {
@@ -263,9 +269,14 @@ document.addEventListener("DOMContentLoaded", function()
                 if (fighterOrgStats[key] >= fighter[key] + 1)
                 {
                      fighter[key] += 1;
+                     isChanged = true;
                 }      
             }
-            return 'gained stats';
+            if (isChanged)
+            {
+                return 'gained stats';
+            }
+            
         }
     }
     function doMove(fighter, moveChoice)
@@ -347,6 +358,7 @@ document.addEventListener("DOMContentLoaded", function()
     {
         alert('Winner is ' + winner);
         alert('Refresh the page to reset the game');    
+        location.reload();
         document.getElementById('finisher').classList.remove('appear');
     }
     
