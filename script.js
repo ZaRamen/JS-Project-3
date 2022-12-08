@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function()
         generateFightersVals(player);
         
         generateFightersVals(computer);
-        
         playerOrgStats = structuredClone(player);
         computerOrgStats = structuredClone(computer);
 
@@ -79,19 +78,20 @@ document.addEventListener("DOMContentLoaded", function()
         fighter['Speed'] += getRandomInteger(0, 1);
         
         // Increase 2 stats by 1 and Decreease 2 stats by 1
-        let increaseStats = new Set();
-        while (increaseStats.size < 2)
+        let increaseStats = new Set(); 
+        let rndIncreaseStat = getRandomStat();
+        while (increaseStats.size < 2 && !increaseStats.has(rndIncreaseStat))
         {
-            let rndIncreaseStat = getRandomStat();
             increaseStats.add(rndIncreaseStat);
             fighter[rndIncreaseStat] += 1;
+            rndIncreaseStat = getRandomStat();
         }
         let decreaseStats = new Set();
         let rndDecreaseStat = getRandomStat();
         while (decreaseStats.size < 2)
         {
 
-            if (!increaseStats.has(rndDecreaseStat))
+            if (!increaseStats.has(rndDecreaseStat) && !decreaseStats.has(rndDecreaseStat))
             {
                 decreaseStats.add(rndDecreaseStat);
                 fighter[rndDecreaseStat] -= 1;
